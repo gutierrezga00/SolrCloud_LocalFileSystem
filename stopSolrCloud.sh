@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# THIS SCRIPT REQUIRES THE FOLLOWING PARAMETERS:
+# JETTY STOP PORT (NUMBER)
+# JETTY SERVER COUNT (NUMBER)
+#
+# EXAMPLE: ./stopSolrCloud 3504 3
+
+export JETTY_STOP_PORT=$1;
+export JETTY_SERVER_COUNT=$2;
+export JETTY_STOP_KEYWORD="STOP_JETTY";
+
+export BASE="/Users/solr/Desktop/solr4.10.3";
+export SOLR_HOME=${BASE}"/example";
+
+for (( c=1; c<=${JETTY_SERVER_COUNT}; c++ ))
+do
+	 java -DSTOP.PORT=${JETTY_STOP_PORT} -DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} -jar ${SOLR_HOME}/start.jar --stop
+	 echo "STOPPED JETTY SOLR SERVER RUNNING ON PORT: ${JETTY_STOP_PORT}"
+	 
+	 JETTY_STOP_PORT=$((JETTY_STOP_PORT+1))
+done
+
+echo "DONE!"
