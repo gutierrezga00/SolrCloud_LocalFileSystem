@@ -32,8 +32,13 @@ export LOG_DIR_NAME="SHARD_LOG";
 export JETTY_STOP_PORT=$((JETTY_PORT+(NUM_SHARDS*JETTY_SERVER_COUNT)));
 export JETTY_STOP_KEYWORD="STOP_JETTY";
 
-export SOLR_JAVA_OPTS="-server -d64 -Xms1g -Xmx1g -Dsolr.solr.home=${SOLR_HOME} \
--DzkHost=${ZK_HOST} -Dhost=${SOLR_HOST} \
+export SOLR_JAVA_OPTS="-server \
+-d64 \
+-Xms1g \
+-Xmx1g \
+-Dsolr.solr.home=${SOLR_HOME} \
+-DzkHost=${ZK_HOST} \
+-Dhost=${SOLR_HOST} \
 -Dcollection.configName=${COLLECTION_CONFIGNAME}";
 
 echo "***********************************************************";
