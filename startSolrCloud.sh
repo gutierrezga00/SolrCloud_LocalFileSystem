@@ -32,7 +32,9 @@ export LOG_DIR_NAME="SHARD_LOG";
 export JETTY_STOP_PORT=$((JETTY_PORT+(NUM_SHARDS*JETTY_SERVER_COUNT)));
 export JETTY_STOP_KEYWORD="STOP_JETTY";
 
-export SOLR_JAVA_OPTS="-server -d64 -Xms1g -Xmx1g -Dsolr.solr.home=${SOLR_HOME} -DzkHost=${ZK_HOST} -Dhost=${SOLR_HOST} -Dcollection.configName=${COLLECTION_CONFIGNAME}";
+export SOLR_JAVA_OPTS="-server -d64 -Xms1g -Xmx1g -Dsolr.solr.home=${SOLR_HOME} \
+-DzkHost=${ZK_HOST} -Dhost=${SOLR_HOST} \
+-Dcollection.configName=${COLLECTION_CONFIGNAME}";
 
 echo "***********************************************************";
 
@@ -63,7 +65,8 @@ if [ -d "${CORE_PROPERTIES}" ]
 		rm -rf ${CORE_PROPERTIES}
 		mkdir ${CORE_PROPERTIES}
 		mkdir ${CORE_PROPERTIES}/${COLLECTION_CONFIGNAME}	
-		printf '%s\n%s\n%s\n' "name=${COLLECTION_CONFIGNAME}" "config=${CONFIG}" "schema=${SCHEMA}" > ${CORE_PROPERTIES}/${COLLECTION_CONFIGNAME}/core.properties;
+		printf '%s\n%s\n%s\n' "name=${COLLECTION_CONFIGNAME}" "config=${CONFIG}" \
+		 "schema=${SCHEMA}" > ${CORE_PROPERTIES}/${COLLECTION_CONFIGNAME}/core.properties;
 fi
 
 if [ ! -d "${DATA_DIR}" ]
@@ -96,11 +99,19 @@ for (( c=1; c<=${JETTY_SERVER_COUNT}; c++ ))
 do
 	if [ $c -eq 1 ]
 	then		
-		java ${SOLR_JAVA_OPTS} -Dbootstrap_confdir=${BOOTSTRAP_CONFDIR} -DnumShards=${NUM_SHARDS} -Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c -Djetty.port=${JETTY_PORT} -DSTOP.PORT=${JETTY_STOP_PORT} -DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} -Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ -jar start.jar &
+		java ${SOLR_JAVA_OPTS} \
+		-Dbootstrap_confdir=${BOOTSTRAP_CONFDIR} \
+		-DnumShards=${NUM_SHARDS} \
+		-Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c \
+		-Djetty.port=${JETTY_PORT} \
+		-DSTOP.PORT=${JETTY_STOP_PORT} \
+		-DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} \
+		-Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ \
+		 -jar start.jar &
 		
 		echo "STARTED SOLR INSTANCE $c ON JETTY_PORT: ${JETTY_PORT}"
 		echo "SOLRCLOUD START TERMINAL COMMAND:"
-		echo "java ${SOLR_JAVA_OPTS} -Dbootstrap_confdir=${BOOTSTRAP_CONFDIR} -DnumShards=${NUM_SHARDS} -Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c -Djetty.port=${JETTY_PORT} -DSTOP.PORT=${JETTY_STOP_PORT} -DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} -Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ -jar start.jar &"
+		echo "java ${SOLR_JAVA_OPTS} -Dbootstrap_confdir=${BOOTSTRAP_CONFDIR} -DnumShards=${NUM_SHARDS} -Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c -Djetty.port=${JETTY_PORT} -DSTOP.PORT=${JETTY_STOP_PORT} -DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} -Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ -jar ${SOLR_HOME}/start.jar &"
 		
 		echo ""
 		echo "USE THIS COMMAND TO STOP CORE RUNNING ON PORT ${JETTY_PORT}."
@@ -108,11 +119,17 @@ do
 
 		sleep 2
 	 else
-		java ${SOLR_JAVA_OPTS} -Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c -Djetty.port=${JETTY_PORT} -DSTOP.PORT=${JETTY_STOP_PORT} -DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} -Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ -jar start.jar &
+		java ${SOLR_JAVA_OPTS} \
+		-Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c \
+		-Djetty.port=${JETTY_PORT} \
+		-DSTOP.PORT=${JETTY_STOP_PORT} \
+		-DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} \
+		-Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ \
+		-jar start.jar &
 		
 		echo "STARTED SOLR INSTANCE $c ON PORT: ${JETTY_PORT}"
 		echo "SOLRCLOUD COMMAND USED TO START THIS CORE:"
-		echo "java ${SOLR_JAVA_OPTS} -Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c -Djetty.port=${JETTY_PORT} -DSTOP.PORT=${JETTY_STOP_PORT} -DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} -Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ -jar start.jar &"
+		echo "java ${SOLR_JAVA_OPTS} -Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c -Djetty.port=${JETTY_PORT} -DSTOP.PORT=${JETTY_STOP_PORT} -DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} -Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ -jar ${SOLR_HOME}/start.jar &"
 		
 		echo ""
 		echo "USE THIS COMMAND TO STOP CORE RUNNING ON PORT ${JETTY_PORT}."
