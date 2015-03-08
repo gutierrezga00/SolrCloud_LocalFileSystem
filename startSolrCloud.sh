@@ -114,7 +114,7 @@ do
 		-Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ \
 		 -jar start.jar &
 		
-		echo "STARTED SOLR INSTANCE $c ON JETTY_PORT: ${JETTY_PORT}"
+		echo "STARTED SOLR SHARD $c ON JETTY_PORT: ${JETTY_PORT}"
 		echo "SOLRCLOUD START TERMINAL COMMAND:"
 		echo "java ${SOLR_JAVA_OPTS} -Dbootstrap_confdir=${BOOTSTRAP_CONFDIR} -DnumShards=${NUM_SHARDS} -Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c -Djetty.port=${JETTY_PORT} -DSTOP.PORT=${JETTY_STOP_PORT} -DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} -Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ -jar start.jar &"
 		
@@ -132,7 +132,7 @@ do
 		-Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ \
 		-jar start.jar &
 		
-		echo "STARTED SOLR INSTANCE $c ON PORT: ${JETTY_PORT}"
+		echo "STARTED SOLR SHARD $c ON PORT: ${JETTY_PORT}"
 		echo "SOLRCLOUD COMMAND USED TO START THIS CORE:"
 		echo "java ${SOLR_JAVA_OPTS} -Dsolr.data.dir=${DATA_DIR}/${SHARD_DIR_NAME}$c -Djetty.port=${JETTY_PORT} -DSTOP.PORT=${JETTY_STOP_PORT} -DSTOP.KEY=${JETTY_STOP_PORT}${JETTY_STOP_KEYWORD} -Dsolr.solr.logging=${LOGS_DIR}/${LOG_DIR_NAME}$c/ -jar start.jar &"
 		
