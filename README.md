@@ -9,3 +9,4 @@ http://youtu.be/70AKyQYoLqM
 
 Presentation Slides:
 http://www.slideshare.net/gutierrezga00/solr-cloud-local-file-system
+
